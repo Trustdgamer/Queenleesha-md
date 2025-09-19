@@ -1,0 +1,17 @@
+{                                                                     
+  "name": "Kallmetrust WEB",                                           
+  "description": "web Pairing code",                                                                        
+  "logo": "https://files.catbox.moe/oh1h0b.jpg",           
+  "keywords": ["nodejs", "pair", "multi device"],                                               
+  "buildpacks": [                                                     
+    {                                                                   
+      "url": "heroku/nodejs"                                        
+    },                                                                
+    {                                                                   
+      "url": "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest"                                                            
+    },                                                                
+    {                                                                   
+      "url": "https://github.com/clhuang/heroku-buildpack-webp-binaries.git"                                                                  
+    }                                                            
+  ]                                                            
+}

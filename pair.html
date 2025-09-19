@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leesha MD | Pair Code</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      height: 100vh;
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      background: linear-gradient(135deg, #0f0f0f, #1a1a2e, #3a0ca3, #7209b7, #f72585);
+      background-size: 400% 400%;
+      animation: bgAnimate 12s ease infinite;
+      color: #fff;
+    }
+
+    @keyframes bgAnimate {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+    }
+
+    .box {
+      width: 340px;
+      padding: 24px;
+      border-radius: 16px;
+      background: rgba(0, 0, 0, 0.7);
+      box-shadow: 0 0 25px rgba(255, 0, 123, 0.6), 0 0 40px rgba(0, 238, 255, 0.3);
+      text-align: center;
+      backdrop-filter: blur(8px);
+    }
+
+    h3 {
+      margin-bottom: 8px;
+      color: #fffbfb;
+      font-size: 1.4rem;
+    }
+
+    h6 {
+      margin: 6px 0 16px;
+      color: #d1d1d1;
+      font-weight: 400;
+    }
+
+    .input-container {
+      display: flex;
+      width: 100%;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 18px;
+    }
+
+    .input-container input {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      outline: none;
+      font-size: 1rem;
+      background: #f1f1f1;
+      color: #000;
+    }
+
+    .input-container button {
+      background: linear-gradient(135deg, #ff005c, #7000ff);
+      border: none;
+      color: white;
+      font-weight: bold;
+      padding: 12px 18px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .input-container button:hover {
+      background: linear-gradient(135deg, #ff2a6e, #8c00ff);
+      transform: scale(1.05);
+    }
+
+    #pair {
+      margin-top: 15px;
+      font-size: 1rem;
+    }
+
+    #copy {
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    #copy:hover {
+      color: #1affff;
+      transform: scale(1.05);
+    }
+
+    footer {
+      margin-top: 25px;
+      font-size: 0.9rem;
+      color: #f5f5f5;
+      opacity: 0.8;
+      text-align: center;
+    }
+    footer span {
+      color: #ff0077;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <i class="fa fa-mobile-alt" style="font-size: 40px; color:#ff005c;"></i>
+    <h3>Link with Phone Number</h3>
+    <h6>Enter your WhatsApp number without +</h6>
+
+    <div class="input-container">
+      <input type="number" id="number" placeholder="234xxxxxxx">
+      <button id="submit">Submit</button>
+    </div>
+
+    <div id="pair"></div>
+    <p id="waiting-message" style="display:none; color:#ccc;">Please wait... (¬_¬)ﾉ</p>
+  </div>
+
+  <footer>
+    ⚡ Made & Powered by <span>LordTrust</span> aka <span>KallmeTrust</span>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0-alpha.1/axios.min.js"></script>
+  <script>
+    let a = document.getElementById("pair");
+    let b = document.getElementById("submit");
+    let c = document.getElementById("number");
+
+    async function Copy() {
+      let text = document.getElementById("copy").innerText;
+      let obj = document.getElementById("copy");
+      await navigator.clipboard.writeText(obj.innerText.replace('CODE: ', ''));
+      obj.innerText = "COPIED!";
+      obj.style.color = "lime";
+      setTimeout(() => {
+        obj.innerText = text;
+        obj.style.color = "red";
+      }, 800);
+    }
+
+    b.addEventListener("click", async (e) => {
+      e.preventDefault();
+      if (!c.value) {
+        a.innerHTML = '<span style="color:yellow;">⚠ Enter your WhatsApp number with country code</span>';
+      } else if (c.value.replace(/[^0-9]/g, "").length < 11) {
+        a.innerHTML = '<span style="color:red;">❌ Invalid number</span>';
+      } else {
+        const fess = c.value.replace(/[^0-9]/g, "");
+        a.innerHTML = '<span style="color:#0ff;">⏳ Generating Code...</span>';
+        let { data } = await axios(`/code?number=${fess}`);
+        let code = data.code || "Service Unavailable";
+        a.innerHTML = `<font id="copy" onclick="Copy()" style="color:red;font-weight:bold">CODE: <span style="color:white;">${code}</span></font>`;
+      }
+    });
+  </script>
+</body>
+</html>
