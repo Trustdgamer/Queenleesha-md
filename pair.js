@@ -16,7 +16,7 @@ const {
 } = require("baileys-pro");
 const { Octokit } = require("@octokit/core")
 const octokit = new Octokit({
-    auth: "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", //GitHub token here
+    auth: process.env.GH_TOKEN //GitHub token here
 });
 
 function removeFile(FilePath){
